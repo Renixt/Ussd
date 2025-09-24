@@ -41,7 +41,7 @@ if ($text === '') {
     $accountNumber = explode('*', $text)[2]; // Toma lo que está después de 1*1
     $response = "CON Tu número de cuenta capturado es: " . $accountNumber;
     $text = substr($text, 0, 3); //regresa text a 1*1*
-    $response = "CON Ingresa '1' para continuar" .$text + " + "  .$accountNumber;
+    $response = "CON Ingresa '1' para continuar" .$text ;
 } elseif ($text === '1*1*1') {
         $response = "END Codigo actual:" .$text ;
 
