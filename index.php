@@ -36,17 +36,41 @@ if ($text === '') {
  
   $response = "CON Introduzca el número de cuenta (digitos únicamente): " ;
 
-} elseif (substr($text, 0, 4) === '1*1*') {
-    // Aquí el usuario ya ingresó algo después de 1*1
-    $accountNumber = explode('*', $text)[2]; // Toma lo que está después de 1*1
-    $response = "CON Tu número de cuenta capturado es: " . $accountNumber;
-    $text = substr($text, 0, 3); //regresa text a 1*1*
-    $response = "CON Ingresa '1' para continuar" .$text ;
-} elseif ($text === '1*1*1') {
-        $response = "END Codigo actual:" .$text ;
+} elseif (preg_match('/^1\*1\*[^*]+$/', $text)) {
+    // 1*1*<cuenta>  -> acaba de capturar la cuenta
+    $parts = explode('*', $text);
+    $accountNumber = $parts[2];
 
+    // Muestra el siguiente menú 
+    $response  = "CON El número de cuenta capturado es: {$accountNumber}\n";
+    $response .= "1. Continuar";
+}
+elseif (preg_match('/^1\*1\*[^*]+\*1$/', $text)) {
+    // 1*1*<cuenta>*1 -> eligió continuar
+     $response = "CON Introduzca el monto a transferir en pesos mexicanos (digitos únicamente): " ;
+}elseif (preg_match('/^1\*1\*[^*]+\*1\*[^*]+$/', $text)) {
+    // 1*1*<cuenta>*1*<monto> -> eligió continuar
+     $parts = explode('*', $text);
+     $monto = $parts[4];
+     $accountNumber = $parts[2];
 
+    // Muestra el siguiente menú 
+    $response  = "CON El número de cuenta: {$accountNumber}. Cantidad: {$monto} \n";
+     $response .= "1. Continuar";
 
+}elseif (preg_match('/^1\*1\*[^*]+\*1\*[^*]+\*1$/', $text)) {
+     // 1*1*<cuenta>*1*<monto>*1 -> eligió continuar
+     $response  = "CON Ingresa tu PIN de seguridad. \n";
+    
+}elseif (preg_match('/^1\*1\*[^*]+\*1\*[^*]+\*1$/', $text)) {
+     // 1*1*<cuenta>*1*<monto>*1*<pin< -> eligió continuar
+    $parts = explode('*', $text);
+    $monto = $parts[4];
+    $accountNumber = $parts[2];
+    $pin = $parts[6];
+
+    $response  = "END El número de cuenta: {$accountNumber}. Cantidad: {$monto}. PIN: {$pin} \n";
+    
 }
 
 echo $response;
