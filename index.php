@@ -39,11 +39,11 @@ if ($text === '') {
 } elseif (preg_match('/^1\*[12]\*[^*]+$/', $text)) {
     // 1*1*<cuenta>  -> acaba de capturar la cuen]ta/telefono
     $parts = explode('*', $text);
-    $tipo = ($parts[1] === '1') ? 'cuenta' : 'teléfono';
+    $tipo = ($parts[1] === '1') ? 'Numero de cuenta' : 'Teléfono';
     $idSelected = $parts[2];
 
     // Muestra el siguiente menú 
-    $response  = "CON El {$tipo} capturado es: {$idSelected}\n";
+    $response  = "CON  {$tipo} capturado: {$idSelected}\n";
     $response .= "1. Continuar";
 }
 elseif (preg_match('/^1\*[12]\*[^*]+\*1$/', $text)) {
@@ -70,7 +70,14 @@ elseif (preg_match('/^1\*[12]\*[^*]+\*1$/', $text)) {
     $accountNumber = $parts[2];
     $pin = $parts[6];
 
-    $response  = "END Se realizará una transferencia a: {$accountNumber}, de valor: {$monto}. PIN: {$pin} \n";
+    $response  = "CON Se realizará una transferencia a: {$accountNumber}, de valor: {$monto}. \n";
+    $response .= "1. CONFIRMAR";
+    
+}elseif (preg_match('/^1\*[12]\*[^*]+\*1\*[^*]+\*1\*[^*]+\*1$/', $text)) {
+     // 1*1*<cuenta>*1*<monto>*1*<pin<*1 -> eligió continuar
+   
+
+    $response  = "END Transacción Realizada Correctamente. \n";
     
 }
 
