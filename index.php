@@ -28,27 +28,28 @@ if ($text === '') {
   $response .= "1- Número de Cuenta\n";
   $response .= "2- Número de teléfono asociado\n";
 
-//} elseif ($text === '2') {
- // $response = "END Tu número de teléfono es: " . $phoneNumber;
+} elseif ($text === '1*2') {
+  $response = "CON Introduzca el número de teléfono asociado (digitos únicamente): " ;
 
 } elseif ($text === '1*1') {
     //1- Número de Cuenta
  
   $response = "CON Introduzca el número de cuenta (digitos únicamente): " ;
 
-} elseif (preg_match('/^1\*1\*[^*]+$/', $text)) {
-    // 1*1*<cuenta>  -> acaba de capturar la cuenta
+} elseif (preg_match('/^1\*[12]\*[^*]+$/', $text)) {
+    // 1*1*<cuenta>  -> acaba de capturar la cuen]ta/telefono
     $parts = explode('*', $text);
-    $accountNumber = $parts[2];
+    $tipo = ($parts[1] === '1') ? 'cuenta' : 'teléfono';
+    $idSelected = $parts[2];
 
     // Muestra el siguiente menú 
-    $response  = "CON El número de cuenta capturado es: {$accountNumber}\n";
+    $response  = "CON El {$tipo} capturado es: {$idSelected}\n";
     $response .= "1. Continuar";
 }
-elseif (preg_match('/^1\*1\*[^*]+\*1$/', $text)) {
+elseif (preg_match('/^1\*[12]\*[^*]+\*1$/', $text)) {
     // 1*1*<cuenta>*1 -> eligió continuar
      $response = "CON Introduzca el monto a transferir en pesos mexicanos (digitos únicamente): " ;
-}elseif (preg_match('/^1\*1\*[^*]+\*1\*[^*]+$/', $text)) {
+}elseif (preg_match('/^1\*[12]\*[^*]+\*1\*[^*]+$/', $text)) {
     // 1*1*<cuenta>*1*<monto> -> eligió continuar
      $parts = explode('*', $text);
      $monto = $parts[4];
@@ -58,18 +59,18 @@ elseif (preg_match('/^1\*1\*[^*]+\*1$/', $text)) {
     $response  = "CON El número de cuenta: {$accountNumber}. Cantidad: {$monto} \n";
      $response .= "1. Continuar";
 
-}elseif (preg_match('/^1\*1\*[^*]+\*1\*[^*]+\*1$/', $text)) {
+}elseif (preg_match('/^1\*[12]\*[^*]+\*1\*[^*]+\*1$/', $text)) {
      // 1*1*<cuenta>*1*<monto>*1 -> eligió continuar
      $response  = "CON Ingresa tu PIN de seguridad. \n";
     
-}elseif (preg_match('/^1\*1\*[^*]+\*1\*[^*]+\*1$/', $text)) {
+}elseif (preg_match('/^1\*[12]\*[^*]+\*1\*[^*]+\*1\*[^*]+$/', $text)) {
      // 1*1*<cuenta>*1*<monto>*1*<pin< -> eligió continuar
     $parts = explode('*', $text);
     $monto = $parts[4];
     $accountNumber = $parts[2];
     $pin = $parts[6];
 
-    $response  = "END El número de cuenta: {$accountNumber}. Cantidad: {$monto}. PIN: {$pin} \n";
+    $response  = "END Se realizará una transferencia a: {$accountNumber}, de valor: {$monto}. PIN: {$pin} \n";
     
 }
 
