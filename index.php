@@ -17,32 +17,34 @@ if ($method !== 'POST') {
 header('Content-Type: text/plain');
 
 if ($text === '') {
-  // Primer request
-  $response  = "CON ¿Qué deseas consultar?\n";
-  $response .= "1- Número de Cuenta\n";
-  $response .= "2- Número de Teléfono\n";
+  // MENU 1
+  $response  = "CON Seleccione una Opción:\n";
+  $response .= "1- Hacer Transferencia\n";
+ // $response .= "2- Número de Teléfono\n";
 
 } elseif ($text === '1') {
-  $response  = "CON Selecciona una opción:\n";
+    //MENU 2
+  $response  = "CON Seleccione el método de identificación del beneficiario:\n";
   $response .= "1- Número de Cuenta\n";
-  $response .= "2- Balance de Cuenta\n";
+  $response .= "2- Número de teléfono asociado\n";
 
-} elseif ($text === '2') {
-  $response = "END Tu número de teléfono es: " . $phoneNumber;
+//} elseif ($text === '2') {
+ // $response = "END Tu número de teléfono es: " . $phoneNumber;
 
 } elseif ($text === '1*1') {
-  $accountNumber = "AC001";
-  $response = "END Tu número de CUENTA es: " . $accountNumber;
+    //1- Número de Cuenta
+ 
+  $response = "CON Introduzca el número de cuenta (digitos únicamente): " ;
 
-} elseif ($text === '1*2') {
-  $balance = "10,000";
-  $response = "END Tu balance es: " . $balance;
+} elseif (substr($text, 0, 4) === '1*1*') {
+    // Aquí el usuario ya ingresó algo después de 1*1
+    $accountNumber = explode('*', $text)[2]; // Toma lo que está después de 1*1
+    $response = "CON Tu número de cuenta capturado es: " . $accountNumber;
+    $text = substr($text, 0, 4); //regresa text a 1*1*
+    $response = "CON Ingresa '1' para continuar";
+} elseif ($text === '1*1') {
+        $response = "END Codigo actual:" .$text;
 
-} else {
-  // Opción no reconocida
-  $response  = "CON Opción no válida.\n";
-  $response .= "1- Número de Cuenta\n";
-  $response .= "2- Número de Teléfono\n";
 }
 
 echo $response;
