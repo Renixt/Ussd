@@ -3,17 +3,17 @@
 $sessionId = $_POST["sessionId"];
 $serviceCode = $_POST["serviceCode"];
 $phoneNumber = $_POST["phoneNumber"];
-$sessionId = $_POST["text"];
+$text = $_POST["text"];
 
 if($text == ""){
     //Primer request, la respuesta empieza con CON
     $response = "CON ¿Que deseas consultar? \n";
-    $response = "1- Numero de Cuenta \n";
-    $response = "2- Numero de Telefono \n";
+    $response .= "1- Numero de Cuenta \n";
+    $response .= "2- Numero de Telefono \n";
 }else if($text == "1"){
     $response = "CON Selecciona una opción. \n";
-    $response = "1- Numero de Cuenta \n";
-    $response = "2- Balance de Cuenta\n";
+    $response .= "1- Numero de Cuenta \n";
+    $response .= "2- Balance de Cuenta\n";
 }else if($text == "2"){
     //terminal response, empieza con END
     $response = "END Tu numero de telefono es: " .$phoneNumber;
@@ -28,7 +28,7 @@ if($text == ""){
 }
 
 //echo la respuesta a la API. La respuesta depende en el numero seleccionado en cada instancia
-header('Content-type; text/plain');
+header('Content-Type; text/plain');
 echo $response;
 
 
